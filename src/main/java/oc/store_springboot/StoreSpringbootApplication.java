@@ -54,9 +54,10 @@ public class StoreSpringbootApplication implements CommandLineRunner {
 					"\n*** Store App ***\n" +
 					"1-Mostrar clientes\n" +
 					"2-Agregar Clientes\n" +
-					"3-Modificar Clietnes\n" +
-					"4-Eliminar Clientes\n" +
-					"5-salir\n" +
+					"3-Buscar Cliente\n" +
+					"4-Modificar Cliente\n" +
+					"5-Eliminar Clientes\n" +
+					"6-salir\n" +
 					"Opcion: ");
 			var option = Integer.parseInt(consol.nextLine());
 
@@ -91,13 +92,85 @@ public class StoreSpringbootApplication implements CommandLineRunner {
 				}
 
 				case 3 -> {
+
+					logger.info("***Buscar Cliente por ID***\n");
+					logger.info("Ingresar Id de cliente: ");
+					var idCliente = Integer.parseInt(consol.nextLine());
+
+					Customer customer = customerService.SearchCustomerById(idCliente);
+
+					if(customer == null)
+					{
+						logger.info("Cliente no encontrado---");
+					}
+					else {
+						logger.info(nl + "Id: "+customer.getCustomer_id());
+						logger.info("Nombre: "+customer.getName_customer());
+						logger.info("Apellido: "+customer.getLastname_customer());
+						logger.info("Membresia: "+customer.getMembership());
+
+					}
+
+
+
 				}
 
 				case 4 -> {
+					logger.info("***Modificar Cliente por ID***\n");
+					logger.info("Ingresar Id de cliente: ");
+					var idCliente = Integer.parseInt(consol.nextLine());
+
+					Customer customer = customerService.SearchCustomerById(idCliente);
+
+					if(customer == null)
+					{
+						logger.info("Cliente no encontrado");
+					}
+					else {
+
+						logger.info(nl + "Id: "+customer.getCustomer_id());
+						logger.info("Nombre: "+customer.getName_customer());
+						logger.info("Apellido: "+customer.getLastname_customer());
+						logger.info("Membresia: "+customer.getMembership());
+
+						customer.setName_customer("Carlos");
+						customer.setLastname_customer("Ramirez");
+						customer.setMembership("o2imk");
+
+						customerService.saveCustomer(customer);
+						logger.info("Cliente modificado");
+
+					}
+
 
 				}
 
 				case 5 -> {
+
+					logger.info("**Eliminar cliente or ID+++");
+					logger.info("Ingresar Id del cliente: ");;
+					var idCustomer = Integer.parseInt(consol.nextLine());
+
+					Customer customer = customerService.SearchCustomerById(idCustomer);
+					if(customer == null)
+					{
+						logger.info("Cliente no encontrado");
+					}
+					else
+					{
+						logger.info(nl + "Id: "+customer.getCustomer_id());
+						logger.info("Nombre: "+customer.getName_customer());
+						logger.info("Apellido: "+customer.getLastname_customer());
+						logger.info("Membresia: "+customer.getMembership());
+						customerService.deleteCustomer(customer);
+						logger.info("***Cliente eliminado***");
+
+					}
+
+
+
+				}
+				case 6 -> {
 					exit = true;
 
 				}
